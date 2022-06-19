@@ -3,19 +3,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Register.css";
 import logo from "../assets/camp-logo.png";
-import background from "../assets/camp-bg.jpg";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const mystyle = {
-    backgroundImage: `url(${background})`,
-    height: "100vh",
-  };
 
   const registerUser = (e) => {
     e.preventDefault();
@@ -31,12 +26,13 @@ const Register = () => {
         console.log(res);
         console.log(res.data.status);
         if (res.data.status === "ok") {
+          toast.success("Account created successfully!");
           navigate("/login");
         }
       });
   };
   return (
-    <div style={mystyle}>
+    <div>
       <div className="col-md-12">
         <div className="col-md-6 center-col">
           <div className="card register-card">

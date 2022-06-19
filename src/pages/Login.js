@@ -1,7 +1,6 @@
 import React from "react";
 import "../css/Login.css";
 import logo from "../assets/camp-logo.png";
-import background from "../assets/camp-bg.jpg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -27,20 +26,16 @@ const Login = () => {
         console.log(res.data);
         if (res.data.status === "ok") {
           localStorage.setItem("token", res.data.user);
-          toast.success("Login successful");
+          toast.success("Login successful!");
           navigate("/home");
         } else {
-          toast.error("Please check your username and password");
+          toast.error("Please check your username and password!");
         }
       });
   };
 
-  const mystyle = {
-    backgroundImage: `url(${background})`,
-    height: "100vh",
-  };
   return (
-    <div style={mystyle}>
+    <div>
       <div className="col-md-12">
         <div className="col-md-6 center-col">
           <div className="card login-card">

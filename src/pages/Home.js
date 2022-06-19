@@ -2,10 +2,15 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../css/Home.css";
+import CreatePost from "../components/CreatePost";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   const [id, setId] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [username, setUsername] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [email, setEmail] = useState("");
 
   const navigate = useNavigate();
@@ -32,11 +37,18 @@ const Home = () => {
           }
         });
     }
+    // eslint-disable-next-line
   }, []);
   return (
     <div>
-      Home
-      {/*console.log(id, username, email)*/}
+      <Navbar />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6 center-col">
+            <CreatePost userId={id} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
