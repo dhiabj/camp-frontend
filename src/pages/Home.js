@@ -5,6 +5,7 @@ import axios from "axios";
 import "../css/Home.css";
 import CreatePost from "../components/CreatePost";
 import Navbar from "../components/Navbar";
+import Posts from "../components/Posts";
 
 const Home = () => {
   const [id, setId] = useState("");
@@ -12,6 +13,7 @@ const Home = () => {
   const [username, setUsername] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [email, setEmail] = useState("");
+  const [posts, setPosts] = useState("");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -36,6 +38,19 @@ const Home = () => {
             navigate("/login");
           }
         });
+
+      axios
+        .get(`http://localhost:8000/api/posts`, {
+          headers: { authorization: token },
+        })
+        .then((res) => {
+          //console.log(res);
+          //console.log(res.data);
+          if (res.data) {
+            setPosts(res.data);
+          }
+          console.log(res.data);
+        });
     }
     // eslint-disable-next-line
   }, []);
@@ -45,7 +60,10 @@ const Home = () => {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 center-col">
-            <CreatePost userId={id} />
+            <CreatePost setPosts={setPosts} userId={id} />
+            {posts
+              ? posts.map((post) => <Posts key={post._id} post={post} />)
+              : null}
           </div>
         </div>
       </div>

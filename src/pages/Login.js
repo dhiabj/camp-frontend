@@ -36,7 +36,7 @@ const Login = () => {
 
   return (
     <div>
-      <div className="col-md-12">
+      <div className="row g-0">
         <div className="col-md-6 center-col">
           <div className="card login-card">
             <div className="card-body">

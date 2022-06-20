@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-const CreatePost = ({ userId }) => {
+const CreatePost = ({ userId, setPosts }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [availableNetwork, setAvailableNetwork] = useState("");
@@ -24,14 +24,16 @@ const CreatePost = ({ userId }) => {
     axios.post(`http://localhost:8000/api/posts/add`, post).then((res) => {
       console.log(res);
       console.log(res.data);
-      if (res.data === "ok") {
+      const newPost = res.data;
+      if (res.status === 200) {
         toast.success("Post added successfully!");
+        setPosts((prev) => [newPost, ...prev]);
       }
     });
   };
 
   return (
-    <div className="card post-card">
+    <div className="card post-card mb-3">
       <div className="card-header">Create post</div>
       <div className="card-body">
         <form onSubmit={createPost}>
