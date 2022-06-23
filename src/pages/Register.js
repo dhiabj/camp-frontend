@@ -5,23 +5,47 @@ import "../css/Register.css";
 import logo from "../assets/camp-logo.png";
 import axios from "axios";
 import { toast } from "react-toastify";
+import UploadFile from "../components/UploadFile";
+import ProgressBar from "../components/ProgressBar";
 
 const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [filename, setFilename] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
+  const [progress, setProgress] = useState(0);
+
+  const setFile = (file, filename) => {
+    setSelectedFile(file);
+    setFilename(filename);
+  };
 
   const registerUser = (e) => {
     e.preventDefault();
-    const user = {
-      username: username,
-      email: email,
-      password: password,
+
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("pfp", selectedFile, filename);
+    //console.log(selectedFile);
+
+    const config = {
+      onUploadProgress: (progressEvent) => {
+        setProgress(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+        //console.log(progress);
+      },
+      headers: { "content-type": "multipart/form-data" },
     };
     //console.log(user);
     axios
-      .post(`http://localhost:8000/api/users/register`, { ...user })
+      .post(`http://localhost:8000/api/users/register`, formData, config)
       .then((res) => {
         console.log(res);
         console.log(res.data.status);
@@ -29,8 +53,12 @@ const Register = () => {
           toast.success("Account created successfully!");
           navigate("/login");
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
+
   return (
     <div>
       <div className="row g-0">
@@ -83,9 +111,14 @@ const Register = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary">
-                  Register
-                </button>
+                <label className="mb-3">Photo</label>
+                <UploadFile setPfp={setFile} />
+                <ProgressBar percentage={progress} />
+                <div className="d-grid col-12 mx-auto">
+                  <button type="submit" className="btn btn-primary">
+                    Register
+                  </button>
+                </div>
               </form>
             </div>
           </div>

@@ -1,35 +1,66 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import ProgressBar from "./ProgressBar";
+import UploadGallery from "./UploadGallery";
 
 const CreatePost = ({ userId, setPosts }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [availableNetwork, setAvailableNetwork] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const onValueChange = (e) => {
     setAvailableNetwork(e.target.value);
   };
 
+  const setFiles = (files) => {
+    setSelectedFiles(files);
+  };
+
   const createPost = (e) => {
     e.preventDefault();
-    const post = {
-      title: title,
-      description: description,
-      availableNetwork: availableNetwork,
-      userId: userId,
-    };
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("availableNetwork", availableNetwork);
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append("gallery", selectedFiles[i]);
+    }
+    formData.append("userId", userId);
     //console.log(userId);
-    console.log(post);
-    axios.post(`http://localhost:8000/api/posts/add`, post).then((res) => {
-      console.log(res);
-      console.log(res.data);
-      const newPost = res.data;
-      if (res.status === 200) {
-        toast.success("Post added successfully!");
-        setPosts((prev) => [newPost, ...prev]);
-      }
-    });
+    //console.log(post);
+
+    const config = {
+      onUploadProgress: (progressEvent) => {
+        setProgress(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+        //console.log(progress);
+      },
+      headers: { "content-type": "multipart/form-data" },
+    };
+
+    axios
+      .post(`http://localhost:8000/api/posts/add`, formData, config)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        const newPost = res.data;
+        if (res.status === 200) {
+          toast.success("Post added successfully!");
+          setPosts((prev) => [newPost, ...prev]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setTimeout(() => setProgress(0), 10000);
+    //console.log(selectedFiles);
   };
 
   return (
@@ -102,6 +133,8 @@ const CreatePost = ({ userId, setPosts }) => {
               </label>
             </div>
           </div>
+          <UploadGallery setGallery={setFiles} />
+          <ProgressBar percentage={progress} />
           <button type="submit" className="btn btn-primary post-btn">
             Post
           </button>

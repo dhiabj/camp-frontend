@@ -1,17 +1,13 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../css/Home.css";
-import CreatePost from "../components/CreatePost";
-import Navbar from "../components/Navbar";
-import Posts from "../components/Posts";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/Profile.css";
 
-const Home = () => {
+const Profile = () => {
   const [id, setId] = useState("");
+  const [username, setUsername] = useState("");
   const [imgData, setImgData] = useState("");
   const [posts, setPosts] = useState([]);
-
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -28,6 +24,7 @@ const Home = () => {
           console.log(res.data);
           if (res.data.user) {
             setId(res.data.user._id);
+            setUsername(res.data.user.username);
             setImgData(res.data.user.img);
           } else {
             localStorage.removeItem("token");
@@ -36,12 +33,12 @@ const Home = () => {
         });
 
       axios
-        .get(`http://localhost:8000/api/posts`, {
-          headers: { authorization: token },
+        .get(`http://localhost:8000/api/posts/`, {
+          params: { userId: id },
         })
         .then((res) => {
-          //console.log(res);
-          //console.log(res.data);
+          console.log(res);
+          console.log(res.data);
           if (res.data) {
             setPosts(res.data);
           }
@@ -52,22 +49,16 @@ const Home = () => {
     }
     // eslint-disable-next-line
   }, []);
-  console.log(posts);
+  //console.log(id);
   return (
     <div>
-      <Navbar imgData={imgData} />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-6 center-col">
-            <CreatePost setPosts={setPosts} userId={id} />
-            {posts.map((post) => (
-              <Posts key={post._id} post={post} />
-            ))}
-          </div>
-        </div>
-      </div>
+      <img
+        src={`data:image/png;base64,${imgData}`}
+        className="user-profile pos"
+        alt="pfp"
+      />
     </div>
   );
 };
 
-export default Home;
+export default Profile;

@@ -1,4 +1,58 @@
 .nav-bg {
     background: rgba(0,0,0,0.0);
   }
+
+  .pfp {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  box-shadow: 0 2px 4px darkslategray;
+  }
+
+  .logo {
+    display: inline-block;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    box-shadow: 0 2px 4px darkslategray;
+    }
+
+  .dropdown-btn{
+  background-color: #36454F;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 16px;
+  height: 50px;
+  width: 50px;
+  box-shadow: 0 2px 4px darkslategray;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  }
+
+  .dropdown-btn:active{
+    background-color: #36454F;
+  box-shadow: 0 0 2px darkslategray;
+  transform: translateY(2px);
+  }
+
+  .spacing{
+    display: flex;
+  }
+
+  .sign-out{
+    cursor: pointer;
+  }
+
+  .icon-right{
+    margin-right: 5px;
+  }
   
