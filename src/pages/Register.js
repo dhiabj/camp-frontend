@@ -7,12 +7,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import UploadFile from "../components/UploadFile";
 import ProgressBar from "../components/ProgressBar";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [birthday, setBirthday] = useState(new Date());
+  const [address, setAddress] = useState("");
   const [filename, setFilename] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
   const [progress, setProgress] = useState(0);
@@ -27,8 +33,12 @@ const Register = () => {
 
     const formData = new FormData();
     formData.append("username", username);
+    formData.append("firstname", firstname);
+    formData.append("lastname", lastname);
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("birthday", birthday);
+    formData.append("address", address);
     formData.append("pfp", selectedFile, filename);
     //console.log(selectedFile);
 
@@ -84,6 +94,30 @@ const Register = () => {
                   />
                 </div>
                 <div className="mb-3">
+                  <label htmlFor="exampleInputFirstname" className="form-label">
+                    First name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputFirstname"
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="exampleInputLastname" className="form-label">
+                    Last name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputLastname"
+                    value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
                   <label htmlFor="exampleInputEmail1" className="form-label">
                     Email address
                   </label>
@@ -111,9 +145,31 @@ const Register = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <label className="mb-3">Photo</label>
-                <UploadFile setPfp={setFile} />
-                <ProgressBar percentage={progress} />
+                <div className="mb-3">
+                  <label htmlFor="exampleInputAddress" className="form-label">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputAddress"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="mb-2">Birthday</label>
+                  <DatePicker
+                    selected={birthday}
+                    onChange={(date) => setBirthday(date)}
+                  />
+                </div>
+                <div>
+                  <label className="mb-3">Photo</label>
+                  <UploadFile setPfp={setFile} />
+                  <ProgressBar percentage={progress} />
+                </div>
+
                 <div className="d-grid col-12 mx-auto">
                   <button type="submit" className="btn btn-primary">
                     Register

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import ProgressBar from "./ProgressBar";
 import UploadGallery from "./UploadGallery";
 
-const CreatePost = ({ userId, setPosts }) => {
+const CreatePost = ({ userconnected, setPosts }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [availableNetwork, setAvailableNetwork] = useState("");
@@ -29,7 +29,7 @@ const CreatePost = ({ userId, setPosts }) => {
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append("gallery", selectedFiles[i]);
     }
-    formData.append("userId", userId);
+    formData.append("userId", userconnected._id);
     //console.log(userId);
     //console.log(post);
 

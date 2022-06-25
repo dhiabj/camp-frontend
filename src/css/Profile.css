@@ -1,7 +1,8 @@
 .user-profile {
-    display: inline-block;
-    width: 250px;
-    height: 250px;
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: auto;
     border-radius: 50%;
     background-repeat: no-repeat;
     background-position: center center;
@@ -9,12 +10,12 @@
     box-shadow: 0 2px 4px darkslategray;
 }
 
-.pos {
-    position: absolute;
+.center-col{
     margin: auto;
-    top: -50%;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    padding-top: 32px;
 }
+
+.profile-card {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  }
   

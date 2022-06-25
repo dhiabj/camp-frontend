@@ -8,9 +8,8 @@ import Navbar from "../components/Navbar";
 import Posts from "../components/Posts";
 
 const Home = () => {
-  const [id, setId] = useState("");
-  const [imgData, setImgData] = useState("");
   const [posts, setPosts] = useState([]);
+  const [userconnected, setUserconnected] = useState({});
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -27,8 +26,7 @@ const Home = () => {
           console.log(res);
           console.log(res.data);
           if (res.data.user) {
-            setId(res.data.user._id);
-            setImgData(res.data.user.img);
+            setUserconnected(res.data.user);
           } else {
             localStorage.removeItem("token");
             navigate("/login");
@@ -52,16 +50,21 @@ const Home = () => {
     }
     // eslint-disable-next-line
   }, []);
-  console.log(posts);
+  //console.log(userconnected);
   return (
     <div>
-      <Navbar imgData={imgData} />
+      <Navbar userconnected={userconnected} />
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 center-col">
-            <CreatePost setPosts={setPosts} userId={id} />
+            <CreatePost setPosts={setPosts} userconnected={userconnected} />
             {posts.map((post) => (
-              <Posts key={post._id} post={post} />
+              <Posts
+                key={post._id}
+                post={post}
+                userconnected={userconnected}
+                setAllPosts={setPosts}
+              />
             ))}
           </div>
         </div>
