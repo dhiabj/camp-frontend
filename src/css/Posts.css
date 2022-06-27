@@ -35,3 +35,13 @@
     box-shadow: 0 0 2px darkslategray;
     transform: translateY(2px);
   }
+
+  .link{
+    text-decoration: unset;
+    color: unset;
+  }
+
+  .link:hover{
+    text-decoration: underline;
+    color: unset;
+  }

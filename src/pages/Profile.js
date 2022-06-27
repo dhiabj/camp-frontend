@@ -11,6 +11,7 @@ const Profile = () => {
   const [selecteduser, setSelecteduser] = useState({});
   const { id } = useParams();
   const [posts, setPosts] = useState([]);
+  const [filteredposts, setFilteredposts] = useState(posts);
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -68,10 +69,19 @@ const Profile = () => {
       });
   }, [id]);
 
+  useEffect(() => {
+    if (posts.length === 0) return;
+    setFilteredposts(posts);
+  }, [posts]);
+
   console.log(selecteduser);
   return (
     <div>
-      <Navbar userconnected={userconnected} />
+      <Navbar
+        userconnected={userconnected}
+        setFilteredposts={setFilteredposts}
+        posts={posts}
+      />
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 center-col">
@@ -107,7 +117,7 @@ const Profile = () => {
               </div>
             </div>
 
-            {posts.map((post) => (
+            {filteredposts.map((post) => (
               <Posts
                 key={post._id}
                 post={post}

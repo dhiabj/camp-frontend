@@ -3,12 +3,21 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 
-const Navbar = ({ userconnected }) => {
+const Navbar = ({ userconnected, posts, setFilteredposts }) => {
   const navigate = useNavigate();
   const signOut = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
+  const searchPosts = (e) => {
+    const searchedPosts = posts.filter((post) => {
+      return post.title.includes(e.target.value);
+    });
+    setFilteredposts(searchedPosts);
+    console.log(searchedPosts);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg nav-bg">
       <div className="container">
@@ -17,6 +26,17 @@ const Navbar = ({ userconnected }) => {
             <i className="fa-solid fa-house"></i>
           </button>
         </Link>
+        <div className="search_box">
+          <button className="rounded-btn me-2" type="button">
+            <i className="fas fa-search"></i>
+          </button>
+          <input
+            type="text"
+            className="input_search"
+            placeholder="Search posts"
+            onChange={searchPosts}
+          />
+        </div>
         <div className="ms-auto d-flex">
           <Link to={`/profile/${userconnected._id}`} className="navbar-brand">
             {userconnected.img && (

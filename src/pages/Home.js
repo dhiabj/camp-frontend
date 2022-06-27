@@ -10,6 +10,7 @@ import Posts from "../components/Posts";
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [userconnected, setUserconnected] = useState({});
+  const [filteredposts, setFilteredposts] = useState(posts);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -51,14 +52,24 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
   //console.log(userconnected);
+
+  useEffect(() => {
+    if (posts.length === 0) return;
+    setFilteredposts(posts);
+  }, [posts]);
+
   return (
     <div>
-      <Navbar userconnected={userconnected} />
+      <Navbar
+        userconnected={userconnected}
+        posts={posts}
+        setFilteredposts={setFilteredposts}
+      />
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 center-col">
             <CreatePost setPosts={setPosts} userconnected={userconnected} />
-            {posts.map((post) => (
+            {filteredposts.map((post) => (
               <Posts
                 key={post._id}
                 post={post}

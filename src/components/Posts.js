@@ -64,9 +64,11 @@ const Posts = ({ post, userconnected, setPosts, setAllPosts }) => {
                 alt="pfp"
               />
             </Link>
-            <p className="username fw-semibold me-2">
-              {post.userId?.firstname} {post.userId?.lastname}
-            </p>
+            <Link to={`/profile/${post.userId?._id}`} className="link">
+              <p className="username fw-semibold me-2">
+                {post.userId?.firstname} {post.userId?.lastname}
+              </p>
+            </Link>
             <small className="text-muted">@{post.userId?.username}</small>
           </div>
 
